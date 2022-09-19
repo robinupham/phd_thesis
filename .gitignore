@@ -1,0 +1,19 @@
+.vscode
+
+# Latex
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.log
+*.run.xml
+*.out
+*.synctex.gz
+*.toc
+
+# Chapter PDFs
+Source/Chapters/*.pdf

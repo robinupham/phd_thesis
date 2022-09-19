@@ -1,0 +1,496 @@
+
+% % Uncomment to build this alone without subfiles:
+% % (also stuff at bottom)
+% \documentclass{scrbook}
+% \input{../preamble}
+% \pagestyle{headings}
+% \setcounter{chapter}{1} % deliberately 1 too low
+% \begin{document}
+
+% Uncomment to use subfiles:
+% \documentclass[../Thesis.tex]{subfiles}
+% \begin{document}
+
+\chapter{Cosmological estimators and likelihoods}
+\label{chap:est_like}
+
+This chapter introduces some of the mathematical concepts involved in the later chapters in this thesis. It begins with an introduction to cosmological fields on the sphere in \autoref{est_Sec:cosmological_fields}, before focusing specifically on weak lensing fields and two-point statistics in \autoref{est_Sec:wl_fields}. \autoref{est_Sec:pcl} introduces the \pcl{} method, which is central to much of the work presented in this thesis, before the concepts of Bayesian inference and likelihoods are described in \autoref{est_Sec:inference}.
+
+This chapter has been compiled from \citet{Heavens2003, Chon2004, Brown2005, Kilbinger2017, Chisari2019, Fang2020b}.
+
+\section{Cosmological fields on the sphere}
+\label{est_Sec:cosmological_fields}
+
+The sky as viewed from the Earth, or indeed anywhere, may be modelled as a sphere (though one can only see up to half the sphere from a fixed point on the surface of the Earth at any given instant). As a result, astronomical observations may be described as fields on the sphere. In the context of cosmology, cosmic variance (introduced in \autoref{chap:cosmo}) means that cosmological fields are modelled as random fields on the sphere. The cosmological principle requires that these fields are statistically isotropic and translation invariant, meaning that information is only contained in the dependence on angular scales and not in orientation or position. Because of this property, it is often most convenient to work with spherical harmonics. For a general scalar field $\psi$, the transforms between the field in angular coordinates $\psi \left( \theta, \phi \right)$ and in spherical harmonics $\psi_{\ell m}$ are
+\begin{align}
+\psi_{\ell m} &= \int{\text{d}\theta \int{\text{d}\phi ~
+\psi \left( \theta, \phi \right) Y_{\ell m}^* \left( \theta, \phi \right) } };
+\label{est_Eqn:sht_to_alm_spin0}
+\\[1em]
+\psi \left( \theta, \phi \right) &= \sum_{\ell = 0}^\infty
+\sum_{m = - \ell}^{+\ell} \psi_{\ell m}
+Y_{\ell m} \left( \theta, \phi \right),
+\label{est_Eqn:sht_from_alm_spin0}
+\end{align}
+where $Y_{\ell m} \left( \theta, \phi \right)$ are the spherical harmonics, and $*$ denotes complex conjugation. Equations \eqref{est_Eqn:sht_to_alm_spin0}--\eqref{est_Eqn:sht_from_alm_spin0} are the spin-0 spherical harmonic transforms (spin will be discussed in \autoref{est_Sec:spin}).
+
+Statistical isotropy implies that only the degree $\ell$ and not the order $m$ carries cosmological information. The field is then mostly characterised by the angular power spectrum $C_\ell$, defined as the expectation value of the product of spherical harmonic coefficients,
+\begin{equation}
+\left\langle \psi_{\ell m} \psi^*_{\ell' m'} \right\rangle
+= \delta_{\ell \ell'} \delta_{m m'} C_\ell^\psi,
+\end{equation}
+where $\delta$ is the Kronecker delta function.
+If the field $\psi$ follows Gaussian statistics, the information content of the field is entirely contained within this power spectrum. If the field is non-Gaussian, higher-order moments are required to fully describe it.
+
+An equivalent, alternative statistic to the angular power spectrum is the angular two-point correlation function $\xi \left( \theta \right)$, defined as
+\begin{equation}
+\left\langle \psi \left( \bm{\Omega} \right)
+\psi \left( \bm{\Omega'} \right) \right\rangle
+= \xi^\psi \left( \left| \bm{\Omega'} - \bm{\Omega} \right| \right),
+\label{est_Eqn:2pcf_definition}
+\end{equation}
+where $\bm{\Omega}$ and $\bm{\Omega'}$ are sky coordinates. The correlation function may be obtained from the power spectrum as
+\begin{equation}
+\xi \left( \theta \right) = \sum_{\ell = 0}^\infty {
+\frac{2 \ell + 1}{4 \pi} C_\ell \,
+d^\ell_{00} \left( \theta \right) },
+\end{equation}
+where $d^\ell_{m' m}$ is a Wigner small-$d$ symbol.
+
+Two correlated fields $\alpha$ and $\beta$ may be described by their cross-power spectrum $C_\ell^{\alpha \beta}$,
+\begin{equation}
+\left\langle \alpha_{\ell m} \beta^*_{\ell' m'} \right\rangle
+= \delta_{\ell \ell'} \delta_{m m'} C_\ell^{\alpha \beta},
+\label{est_Eqn:general_cross_cl}
+\end{equation}
+or by their cross-correlation function, defined analogously to Equation \eqref{est_Eqn:2pcf_definition}. Cross-power spectra and cross-correlation functions are symmetric such that
+\begin{align}
+C_\ell^{\alpha \beta} &= C_\ell^{\beta \alpha};
+\\[1em]
+\xi^{\alpha \beta} \left( \theta \right)
+&= \xi^{\beta \alpha} \left( \theta \right).
+\end{align}
+
+\subsection{Spin}
+\label{est_Sec:spin}
+
+Some cosmological fields are scalar, in that they are described by a single value at each point on the sky. Examples include the CMB temperature anisotropies, or the number density of galaxies. These fields are spin-0, and obey the above equations.
+
+Some cosmological fields are spin-2, such as the CMB polarisation, and weak lensing shear. These fields are described by two values at each point, such that they can be modelled as complex. A general spin-2 field $\gamma$ can be decomposed into two components $\gamma_1$ and $\gamma_2$,
+\begin{equation}
+\gamma = \gamma_1 + i \gamma_2,
+\end{equation}
+or into a magnitude $\left| \gamma \right|$ and phase $\phi$,
+\begin{equation}
+\gamma = \left| \gamma \right| e^{2 i \phi}.
+\label{est_Eqn:spin2_complex}
+\end{equation}
+The factor of $2$ in Equation \eqref{est_Eqn:spin2_complex} captures the spin-2 nature of $\gamma$. It ensures that the field is invariant under
+\begin{equation}
+\phi \rightarrow \phi + \pi.
+\end{equation}
+
+The equivalent of Equations \eqref{est_Eqn:sht_to_alm_spin0}--\eqref{est_Eqn:sht_from_alm_spin0} for spin-2 fields are the spin-2 spherical harmonic transforms,
+\begin{align}
+{}_2\gamma_{\ell m} &= \int{\text{d}\theta \int{\text{d}\phi ~
+\gamma \left( \theta, \phi \right)
+{}_2Y_{\ell m}^* \left( \theta, \phi \right) } };
+\\[1em]
+{}_{-2}\gamma_{\ell m} &= \int{\text{d}\theta \int{\text{d}\phi ~
+\gamma^* \left( \theta, \phi \right)
+{}_{-2}Y_{\ell m}^* \left( \theta, \phi \right) } };
+\\[1em]
+\gamma \left( \theta, \phi \right) &= \sum_{\ell = 0}^\infty
+\sum_{m = - \ell}^{+\ell} {}_2\gamma_{\ell m}
+{}_2Y_{\ell m} \left( \theta, \phi \right);
+\\[1em]
+\gamma^* \left( \theta, \phi \right) &= \sum_{\ell = 0}^\infty
+\sum_{m = - \ell}^{+\ell} {}_{-2}\gamma_{\ell m}
+{}_{-2}Y_{\ell m} \left( \theta, \phi \right),
+\end{align}
+where ${}_sY_{\ell m} \left( \theta, \phi \right)$ are the spin-weighted spherical harmonics.
+
+An alternative decomposition of a spin-2 field that is often more closely related to the physical origins of the field (such as in both CMB polarisation and weak lensing shear) is the decomposition into $E$-mode and $B$-mode components, as
+\begin{align}
+E_{\ell m} &= \frac{1}{2} \Big[ {}_2\gamma_{\ell m}
++ {}_{-2}\gamma_{\ell m} \Big];
+\\[1em]
+B_{\ell m} &= \frac{-i}{2} \Big[ {}_2\gamma_{\ell m}
+- {}_{-2}\gamma_{\ell m} \Big].
+\end{align}
+
+It is then possible to transform directly between the spin-2 field and its $E$- and $B$-mode harmonic coefficients as
+\begin{align}
+E_{\ell m} &= \frac{1}{2} \int{\text{d}\theta \int{\text{d}\phi ~
+\Big[ \gamma \left( \theta, \phi \right)
+{}_2Y_{\ell m}^* \left( \theta, \phi \right)
++ \gamma^* \left( \theta, \phi \right)
+{}_{-2}Y_{\ell m}^* \left( \theta, \phi \right) \Big] } };
+\\[1em]
+B_{\ell m} &= \frac{-i}{2} \int{\text{d}\theta \int{\text{d}\phi ~
+\Big[ \gamma \left( \theta, \phi \right)
+{}_2Y_{\ell m}^* \left( \theta, \phi \right)
+- \gamma^* \left( \theta, \phi \right)
+{}_{-2}Y_{\ell m}^* \left( \theta, \phi \right) \Big] } };
+\\[1em]
+\gamma \left( \theta, \phi \right) &= \sum_{\ell = 0}^\infty
+\sum_{m = - \ell}^{+\ell} \Big[ E_{\ell m} + i B_{\ell m} \Big]
+{}_2Y_{\ell m} \left( \theta, \phi \right);
+\\[1em]
+\gamma^* \left( \theta, \phi \right) &= \sum_{\ell = 0}^\infty
+\sum_{m = - \ell}^{+\ell} \Big[ E_{\ell m} - i B_{\ell m} \Big]
+{}_{-2}Y_{\ell m} \left( \theta, \phi \right).
+\end{align}
+
+We may then define the $E$-mode and $B$-mode power spectra, $C_\ell^{EE}$ and $C_\ell^{BB}$, as
+\begin{align}
+\left\langle E_{\ell m} E^*_{\ell' m'} \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'} C_\ell^{EE};
+\\[1em]
+\left\langle B_{\ell m} B^*_{\ell' m'} \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'} C_\ell^{BB},
+\end{align}
+as well as the $E$-$B$ cross-power spectrum $C_\ell^{EB}$,
+\begin{equation}
+\left\langle E_{\ell m} B^*_{\ell' m'} \right\rangle
+= \delta_{\ell \ell'} \delta_{m m'} C_\ell^{EB}.
+\end{equation}
+
+These may be used to obtain the spin-2 $\xi^+$ and $\xi^-$ correlation functions,
+\begin{equation}
+\xi^\pm \left( \theta \right) = \sum_{\ell = 0}^\infty {
+\frac{2 \ell + 1}{4 \pi}
+\Big[ C_\ell^{EE} \pm C_\ell^{BB} \Big] \,
+d^\ell_{\pm 2 2} \left( \theta \right) }.
+\end{equation}
+
+There may also be cross-power spectra between spin-0 and spin-2 fields,
+\begin{align}
+\left\langle \psi_{\ell m} E^*_{\ell' m'} \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'} C_\ell^{\psi E};
+\\[1em]
+\left\langle \psi_{\ell m} B^*_{\ell' m'} \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'} C_\ell^{\psi B},
+\end{align}
+and a corresponding cross-correlation function $\xi^\times$,
+\begin{equation}
+\xi^\times \left( \theta \right) = \sum_{\ell = 0}^\infty {
+\frac{2 \ell + 1}{4 \pi}
+\Big[ C_\ell^{\phi E} - i C_\ell^{\phi B} \Big] \,
+d^\ell_{2 0} \left( \theta \right) }.
+\end{equation}
+
+\section{Weak lensing fields and two-point statistics}
+\label{est_Sec:wl_fields}
+
+\subsection{Shear field}
+
+The main weak lensing target observable field is the shear field, $\gamma$. In the weak lensing regime, the shear is additive to the galaxy ellipticity, such that the observed ellipticity of a galaxy $\epsilon$ is given by
+\begin{equation}
+\epsilon = \epsilon_\text{int} + \gamma,
+\end{equation}
+where $\epsilon_\text{int}$ is the intrinsic galaxy ellipticity. Taking the two-point correlation of the ellipticity gives
+\begin{equation}
+\begin{aligned}[b]
+\left\langle \epsilon \epsilon^* \right\rangle &=
+\left\langle \left( \epsilon_\text{int} + \gamma \right)
+\left( \epsilon_\text{int} + \gamma \right)^* \right\rangle
+\\
+&= \left\langle \epsilon_\text{int} {\epsilon_\text{int}}^* \right\rangle
++ \left\langle \gamma \gamma^* \right\rangle
++ \left\langle \epsilon_\text{int} \gamma^* \right\rangle
++ \left\langle \gamma {\epsilon_\text{int}}^* \right\rangle.
+\end{aligned}
+\label{est_Sec:2pt_eps}
+\end{equation}
+The first term in Equation \eqref{est_Sec:2pt_eps} corresponds to shape noise (see \autoref{est_Sec:noise}), while the third and fourth correspond to intrinsic alignments, discussed in Chapter \ref{chap:cosmo}. In practice all of these terms contribute to the observed two-point correlation of galaxy ellipticity, but in an idealised scenario with no intrinsic alignments and where an infinite number of galaxies are averaged over, we have
+\begin{equation}
+\left\langle \epsilon \epsilon^* \right\rangle =
+\left\langle \gamma \gamma^* \right\rangle.
+\end{equation}
+
+% In the absence of intrinsic alignments, and for an infinite number of galaxies such that there is no shape noise (see \autoref{est_Sec:noise}), all correlations involving intrinsic galaxy ellipticity vanish, leaving
+% \begin{equation}
+% \left\langle \epsilon \epsilon^* \right\rangle =
+% \left\langle \gamma \gamma^* \right\rangle.
+% \end{equation}
+
+The shear field is spin-2, so follows the spin-2 spherical harmonic transforms described in \autoref{est_Sec:spin} above. It has the important property that the $s = +2$ and $s = -2$ spherical harmonic coefficients are identical,
+\begin{equation}
+{}_{2}\gamma_{\ell m} = {}_{-2}\gamma_{\ell m}
+\equiv \gamma_{\ell m}.
+\label{est_Eqn:shear_alm_equal}
+\end{equation}
+The shear field at a particular redshift $z$ and a point on the sky $\bm{\Omega}$, $\gamma \left( z, \bm{\Omega} \right)$, is related to the lensing potential field $\phi \left( z, \bm{\Omega} \right)$ via their respective harmonic coefficients, as
+\begin{equation}
+\gamma_{\ell m} \left( z, \bm{\Omega} \right)
+= \frac{1}{2} \sqrt{\frac{\left( \ell + 2 \right)!}
+{\left( \ell - 2 \right)!}}
+\phi_{\ell m} \left( z, \bm{\Omega} \right).
+\end{equation}
+The lensing potential is a spin-0 field, which is given by a projection of the three-\linebreak dimensional gravitational potential $\Phi \left( z, \bm{\Omega} \right)$, as
+\begin{equation}
+\phi \left( z, \bm{\Omega} \right) = \frac{2}{c^2}
+\int_0^z \text{d}z'~
+\left[ \frac{S_K \left( r \right) - S_K \left( r' \right)}
+{S_K \left( r \right) S_K \left( r' \right)} \right]
+\Phi \left( z', \bm{\Omega} \right),
+\label{est_Eqn:lensing_potential}
+\end{equation}
+where $r = \chi \left( z \right)$, and $S_K \left( \chi \right)$ is defined in Equation \eqref{co_Eqn:angular_diameter_distance}.
+
+The gravitational potential is related to the matter overdensity field $\delta \left( z, \bm{\Omega} \right)$ by the Poisson equation,
+\begin{equation}
+\nabla^2 \Phi \left( z, \bm{\Omega} \right)
+= \frac{3 \omm H_0^2}{2 a \left( t \right)}
+\delta \left( z, \bm{\Omega} \right),
+\end{equation}
+where the matter density parameter $\omm$, the Hubble constant $H_0$ and the scale factor $a \left( t \right)$ are all defined in \autoref{chap:cosmo}. The matter overdensity field $\delta \left( z, \bm{\Omega} \right)$ is defined in terms of the density field $\rho \left( z, \bm{\Omega} \right)$ as
+\begin{equation}
+\delta \left( z, \bm{\Omega} \right) =
+\frac{\rho \left( z, \bm{\Omega} \right) - \overline{\rho}}{\overline{\rho}},
+\label{est_Eqn:matter_overdensity}
+\end{equation}
+where $\overline{\rho}$ is the mean density.
+
+\subsection{Galaxy number overdensity field}
+
+For galaxy clustering it is simplest to consider the galaxy number overdensity field $n \left( z, \bm{\Omega} \right)$, which is a spin-0 field defined analogously to Equation \eqref{est_Eqn:matter_overdensity} in terms of the galaxy number density field $N \left( z, \bm{\Omega} \right)$ as
+\begin{equation}
+n \left( z, \bm{\Omega} \right) =
+\frac{N \left( z, \bm{\Omega} \right) - \overline{N}}{\overline{N}}.
+\end{equation}
+
+\subsection{\texorpdfstring{\ttp{}}{3x2 pt} power spectra}
+
+For a general set of galaxy number overdensity fields $n \left( z_i \right)$ and shear fields $\gamma \left( z_i \right)$, we may form three types of two-point correlations: galaxy--galaxy, shear--shear, and galaxy--shear. This common set of three two-point correlations is known as \ttp{}. The six \ttp{} power spectra are defined in terms of the spherical harmonic coefficients of the spin-0 number overdensity fields $n_{\ell m} \left( z_i \right)$ and of the $E$- and $B$-mode components of the spin-2 shear fields $E_{\ell m} \left( z_i \right)$ and $B_{\ell m} \left( z_i \right)$ as (henceforth dropping the angular coordinate $\bm{\Omega}$ for clarity)
+\begin{align}
+% NN
+\left\langle n_{\ell m} \left( z_1 \right)
+n_{\ell' m'}^* \left( z_2 \right) \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'}
+C_\ell^{n \left( z_1 \right) n \left( z_2 \right)};
+\\[1em]
+% EE
+\left\langle E_{\ell m} \left( z_1 \right)
+E_{\ell' m'}^* \left( z_2 \right) \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'}
+C_\ell^{E \left( z_1 \right) E \left( z_2 \right)};
+\\[1em]
+% BB
+\left\langle B_{\ell m} \left( z_1 \right)
+B_{\ell' m'}^* \left( z_2 \right) \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'}
+C_\ell^{B \left( z_1 \right) B \left( z_2 \right)};
+\\[1em]
+% NE
+\left\langle n_{\ell m} \left( z_1 \right)
+E_{\ell' m'}^* \left( z_2 \right) \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'}
+C_\ell^{n \left( z_1 \right) E \left( z_2 \right)};
+\\[1em]
+% NB
+\left\langle n_{\ell m} \left( z_1 \right)
+B_{\ell' m'}^* \left( z_2 \right) \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'}
+C_\ell^{n \left( z_1 \right) B \left( z_2 \right)};
+\\[1em]
+% EB
+\left\langle E_{\ell m} \left( z_1 \right)
+B_{\ell' m'}^* \left( z_2 \right) \right\rangle
+&= \delta_{\ell \ell'} \delta_{m m'}
+C_\ell^{E \left( z_1 \right) B \left( z_2 \right)}.
+\end{align}
+
+A consequence of Equation \eqref{est_Eqn:shear_alm_equal} is that the $B$-mode component of the shear field vanishes, such that
+\begin{align}
+C_\ell^{B \left( z_1 \right) B \left( z_2 \right)} &= 0;
+\\[1em]
+C_\ell^{n \left( z_1 \right) B \left( z_2 \right)} &= 0;
+\\[1em]
+C_\ell^{E \left( z_1 \right) B \left( z_2 \right)} &= 0.
+\end{align}
+However, the $BB$ power spectrum will contain a noise contribution when $z_1 = z_2$ (see \autoref{est_Sec:noise} below). $B$-modes in the observed ellipticity field can also be introduced by intrinsic alignments and other systematic effects. In practice, $B$-mode power spectra are often tested for consistency with zero as a check of systematics \citep[e.g.][]{Asgari2019a}.
+
+The remaining three power spectra $C_\ell^{X \left( z_1 \right) Y \left( z_2 \right) }$, where each of $X$ and $Y$ may be $n$ or $E$, are given by a projection over the matter distribution,
+\begin{equation}
+C_\ell^{X \left( z_1 \right) Y \left( z_2 \right) }
+= \frac{2}{\pi}
+\int_0^\infty
+\frac{\text{d}k}{k} k^3
+\hspace{-.2em}
+\int_0^{z_1}
+\hspace{-.2em}
+\text{d}z
+\hspace{-.2em}
+\int_0^{z_2}
+\hspace{-.2em}
+\text{d}z'~
+P_\text{m} \hspace{-.25em}
+\left( k, z, z' \right)
+j_\ell \left( k \chi \hspace{-.25em} \left( z \right) \right)
+j_\ell \left( k \chi \hspace{-.25em} \left( z' \right) \right)
+w^X_\ell \left( k, z \right)
+w^Y_\ell \left( k, z' \right),
+\label{est_Eqn:cl_general}
+\end{equation}
+with respective weight functions for galaxy number overdensity and shear given by
+\begin{align}
+w^N_\ell \left( k, z \right) &=
+n \left( z \right) b \left( z \right);
+\\[1em]
+w^E_\ell \left( k, z \right) &=
+\frac{3 H_0^2 \omm}{2 k^2}
+\sqrt{\frac{\left( \ell + 2 \right)!}{\left( \ell - 2 \right)!}}
+\frac{\left( 1 + z \right)}{c H \left( z \right)}
+\int_z^\infty \text{d}z' ~
+n \left( z' \right)
+\frac{\chi \left( z' \right) - \chi \left( z \right)}
+{\chi \left( z' \right) \chi \left( z \right)},
+\end{align}
+where additional effects such as redshift-space distortions, magnification and intrinsic alignments have been neglected. $j_\ell$ are the spherical Bessel functions of order $\ell$, $n \left( z \right)$ is the normalised redshift distribution of galaxies in the survey, $b \left( z \right)$ is the linear galaxy bias such that $n \left( z \right) = b \left( z \right) \delta \left( z \right)$, and the matter distribution is described by the matter power spectrum $P_\text{m} \left( k, z, z' \right)$, defined as
+\begin{equation}
+\left\langle \,
+\widetilde{\delta} \left( \bm{k}, z \right) \,
+\widetilde{\delta}^*  \hspace{-.25em}\left( \bm{k'}, z' \right)
+\hspace{-.1em}
+\right\rangle
+= \left( 2 \pi \right)^3
+\delta_\text{D} \left( \bm{k} - \bm{k'} \right)
+P_\text{m} \left( \left| \bm{k} \right|, z, z' \right),
+\end{equation}
+where $\widetilde{\delta} \left( \bm{k}, z \right)$ is the Fourier transform of the matter overdensity field at redshift $z$, and $\delta_\text{D}$ is the Dirac delta function.
+
+It follows from Equation \eqref{est_Eqn:cl_general} that measuring a set of \ttp{} power spectra over a range of redshifts directly probes the evolution of the matter distribution. This offers a wealth of information about recent structure growth and the expansion of the Universe, the details of which depend closely on the properties of dark energy and dark matter, as described in \autoref{chap:cosmo}. This is why weak lensing, and especially the combination of weak lensing and galaxy clustering, are such valuable cosmological probes.
+
+\subsection{Shape and shot noise}
+\label{est_Sec:noise}
+
+The ability to trace the underlying matter distribution by the shapes and positions of galaxies is limited by the finite number of galaxies in a survey. This introduces a noise term, resulting from the correlation of each galaxy with itself, which is suppressed as more galaxies are included. For galaxy clustering this noise term depends only on the number density of galaxies in a particular redshift bin, $N_\text{s} \left( z \right)$, and is known as shot noise. For cosmic shear, there is an additional dependence on the dispersion of intrinsic shapes $\sigma_\epsilon$, which is defined per component such that it contributes equally to the $E$- and $B$-mode power spectra. This is known as shape noise. The noise contributions to the power spectra, $N_\ell$, are given by
+\begin{align}
+N_\ell^{n \left( z_1 \right) n \left( z_2 \right) } &=
+\delta_{z_1 z_2} \frac{1}{N_\text{s} \left( z_1 \right)};
+\\[1em]
+N_\ell^{E \left( z_1 \right) E \left( z_2 \right) } &=
+N_\ell^{B \left( z_1 \right) B \left( z_2 \right) } =
+\delta_{z_1 z_2} \frac{\sigma_\epsilon^2}{N_\text{s} \left( z_1 \right)};
+\\[1em]
+N_\ell^{n \left( z_1 \right) E \left( z_2 \right) } &=
+N_\ell^{n \left( z_1 \right) B \left( z_2 \right) } =
+N_\ell^{E \left( z_1 \right) B \left( z_2 \right) } = 0.
+\end{align}
+
+Since the noise power spectra are inversely proportional to the number density of galaxies, this is a motivation for Stage IV weak lensing surveys to aim to detect large numbers of galaxies.
+% The lack of a noise contribution to cross-spectra additionally motivates splitting surveys into more redshift bins to include more cross-correlations, though this must be balanced with the resulting decrease in the number of galaxies per bin.
+
+
+\section{\texorpdfstring{\Pcl{}}{Pseudo-Cl} method}
+\label{est_Sec:pcl}
+
+For full-sky observations, the power spectrum is the underlying covariance of the spherical harmonic coefficients, as was shown for the general case in Equation \eqref{est_Eqn:general_cross_cl}. (Covariance is defined in Equation \eqref{est_Eqn:covariance} below.) Therefore, the power spectrum may be estimated simply using the sample covariance of those coefficients,
+\begin{equation}
+\widehat{C}_\ell^{\alpha \beta} = \frac{1}{2 \ell + 1}
+\sum_{m = - \ell}^{+ \ell} \alpha_{\ell m} \beta_{\ell m}^*.
+\label{est_Eqn:full_sky_cl}
+\end{equation}
+
+However, in practice full-sky observations are never truly possible. From the ground, some parts of the sky are never visible, while even in space much of the sky is obscured by the Galaxy and other nearby objects (for example, \Euclid{} will only observe around one third of the sky). The estimator in Equation \eqref{est_Eqn:full_sky_cl} does not return the underlying power spectrum if the sky is cut, because the full sphere is needed in order to cleanly decompose into spherical harmonics (see \autoref{chap:exact_like} for more details). Therefore, another approach to estimating power spectra is needed. One such approach is the \pcl{} method.
+
+The \pcl{} method as presented here was introduced in \citet{Hivon2002} and extended to correlated spin-0 and spin-2 fields in \citet{Kogut2003, Brown2005}. It has been further modified to include extensions such as contaminant deprojection and $E$/$B$ purification (see \citealt{Alonso2019} and references therein). It has been used for CMB \citep{Kogut2003}, galaxy clustering \citep{Camacho2019}, and weak lensing \citep{Hikage2019} analyses, and will be used for the analysis of future \Euclid{} data \citep{Loureiro2021}.
+
+When the estimator in Equation \eqref{est_Eqn:full_sky_cl} is applied to full-sky data, its expected value is equal to the underlying power spectrum,
+\begin{equation}
+\left\langle \widehat{C}_\ell^{\alpha \beta} \right\rangle
+= C_\ell^{\alpha \beta},
+\end{equation}
+where $C_\ell^{\alpha \beta}$ may include a noise contribution. However, when it is applied to cut-sky data, denoted here as $\widetilde{C}_\ell^{\alpha \beta}$, its expectation value is a linear combination of the power spectrum at different multipoles $\ell$,
+\begin{equation}
+\left\langle \widetilde{C}_\ell^{\alpha \beta} \right\rangle
+= \sum_{\ell' = 0}^\infty M_{\ell \ell'}
+C^{\alpha \beta}_{\ell'},
+\label{est_Eqn:mixing_forward}
+\end{equation}
+where $M_{\ell \ell'}$ are the elements of the mixing matrix $\mathbfss{M}$, which can also mix $E$- and $B$-mode components. Full expressions for the elements of the mixing matrix are given in \citet{Brown2005}.
+
+In principle, Equation \eqref{est_Eqn:mixing_forward} may be inverted to obtain an unbiased estimate of the underlying power spectrum,
+\begin{equation}
+\left\langle \sum_{\ell' = 0}^\infty M^{-1}_{\ell \ell'}
+\widetilde{C}_{\ell'}^{\alpha \beta}  \right\rangle
+= C_\ell^{\alpha \beta}.
+\end{equation}
+However, this step is unnecessary and can introduce problems, and is not being used for \Euclid{} \citep{Loureiro2021}.
+
+As discussed in \autoref{chap:cosmo}, the unprecedented precision offered by \Euclid{} demands an equally unprecedented understanding of all aspects of data analysis. This includes the statistical properties of estimators. While the \pcl{} estimator has been used in previous analyses \citep[e.g.][]{Kogut2003, Hikage2019, Camacho2019, Loureiro2021}, a detailed understanding of its statistical properties is lacking, prior to the work presented in this thesis. This motivates much of the work presented here: Chapters \ref{chap:exact_like}, \ref{chap:gauss_like}, and \ref{chap:cov} are dedicated to studying the statistical properties of \pcl{} estimates.
+
+\section{Bayesian inference and likelihoods}
+\label{est_Sec:inference}
+
+As a result of cosmic variance, as discussed in \autoref{chap:cosmo}, all observable data in cosmology are probabilistic and cannot be predicted exactly by theory. The typical approach to dealing with this property centres on Bayes' theorem, which relates the probability of a given model $M$ (or equivalently, a given set of parameters of a model) to some observed data $D$,
+\begin{equation}
+P \left( M | D \right)
+= \frac{ P \left( D | M \right) P \left( M \right) }{ P \left( D \right)}.
+\label{est_Eqn:bayes}
+\end{equation}
+
+$P \left( M | D \right)$ in Equation \eqref{est_Eqn:bayes} is the posterior probability, which is what we want to know: how likely is a particular model, or a particular set of parameter values for a given model. $P \left( M \right)$ is the prior, containing the prior knowledge about the probability of $M$ before the observed data $D$ is taken into account. This can incorporate constraints from previous data, or it can be chosen to be uninformative. $P \left( D \right)$ is known as the Bayesian evidence; it often acts as simply a normalising factor such that $P \left( M | D \right)$ integrates to unity over all values of $M$, but can also be used to assess the overall fit of the data to a model over all parameter values, in order to compare between models. The remaining term, $P \left( D | M \right)$, is the likelihood. This is where the details of the probabilistic nature of the data enter the inference process. Finding the correct likelihood function, or at least a suitable choice, is a challenge, and Chapters \ref{chap:exact_like} and \ref{chap:gauss_like} focus on finding a suitable likelihood function for \pcl{} estimates.
+
+For a given choice of likelihood function, a posterior distribution is obtained by evaluating the likelihood at all values of $M$ (which is often the parameters of a given model) included in the prior, multiplying by the prior itself, and normalising. In practice, the way that the likelihood is evaluated everywhere could be through parameter grid searches, which are used throughout this work, or by random sampling techniques such as Markov Chain Monte Carlo, which are usually necessary in the high-dimensional cosmological analyses of real data.
+
+\subsection{Credible regions and sigma notation}
+\label{est_Sec:credible_regions_sigma_notation}
+
+A posterior distribution will have a value at each point in its parameter space equal to its probability density at that point. This is not a straightforward value to interpret, so it is common to define credible regions to allow for easier interpretation of results. An $X\%$ credible region contains $X\%$ of the total probability mass of the posterior distribution. There are infinitely many such regions and there is more than one convention as to how to choose it; the definition used in this thesis is that the $X\%$ credible region contains the highest-probability-density $X\%$ of the total probability mass.
+
+A further shorthand used in this thesis is sigma notation, where credible regions are referred to using the analogue of the univariate Gaussian distribution (see \autoref{est_sec:Gaussian} below), which contains a given amount of probability mass within $N$ standard deviations of the mean. The conversion between a sigma value of $N\sigma$ and the corresponding credible region is given by
+\begin{equation}
+N\sigma = \text{erf}{\left( \frac{N}{\sqrt{2}} \right)}~\text{credible region,}
+\end{equation}
+where the error function $\text{erf}$ is defined as
+\begin{equation}
+\text{erf}{\left( x \right)}
+= \frac{2}{\sqrt{\pi}} \int_0^x{ \text{d}t ~ e^{-t^2} }.
+\end{equation}
+The values for $N$ = (1, 2, 3, 4, 5) are
+\begin{align}
+1 \sigma &= 68.268\,949\,\%~\text{credible region;} \\
+2 \sigma &= 95.449\,974\,\%~\text{credible region;} \\
+3 \sigma &= 99.730\,020\,\%~\text{credible region;} \\
+4 \sigma &= 99.993\,666\,\%~\text{credible region;} \\
+5 \sigma &= 99.999\,943\,\%~\text{credible region,}
+\end{align}
+but $N$ may take any non-negative value including non-integer values.
+
+\subsection{Gaussian likelihood and covariance}
+\label{est_sec:Gaussian}
+
+A common choice of likelihood function is the multivariate Gaussian (also known as normal) distribution. The Gaussian probability density function (PDF) for a data vector $\mathbfit{x}$ of length $k$ is
+\begin{equation}
+f_\mathcal{N} \left( \mathbfit{x} | \bm{\mu}, \bm{\Sigma} \right)
+= \left( 2 \pi \right)^{- k / 2}
+\left| \bm{\Sigma} \right|^{-1/2}
+\exp \left[ - \frac{1}{2} \left( \mathbfit{x} - \bm{\mu} \right)^\mathsf{T}
+\bm{\Sigma}^{-1} \left( \mathbfit{x} - \bm{\mu} \right) \right],
+\label{est_Eqn:gauss}
+\end{equation}
+where $\left| \cdot \right|$ denotes a matrix determinant. In Equation \eqref{est_Eqn:gauss}, $\bm{\mu}$ is the mean (expected value) of $\mathbfit{x}$,
+\begin{equation}
+\left\langle \mathbfit{x} \right\rangle = \bm{\mu},
+\end{equation}
+and $\bm{\Sigma}$ is the covariance matrix of $\mathbfit{x}$,
+\begin{equation}
+\bm{\Sigma}_{ij} = \text{Cov}\left( x_i, x_j \right),
+\end{equation}
+where covariance is defined as
+\begin{equation}
+\text{Cov}\left( x_i, x_j \right)
+= \left\langle x_i x_j \right\rangle -
+\left\langle x_i \right\rangle \left\langle x_j \right\rangle.
+\label{est_Eqn:covariance}
+\end{equation}
+
+The suitability of Equation \eqref{est_Eqn:gauss} as a choice of likelihood function for \pcl{} estimates is investigated in \autoref{chap:gauss_like}, while the covariance of \pcl{} estimates is studied in \autoref{chap:cov}.
+
+
+% % Uncomment to build alone without subfiles:
+% \printbibliography[heading=bibintoc]
+% \end{document}

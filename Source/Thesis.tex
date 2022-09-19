@@ -1,0 +1,50 @@
+\documentclass{scrbook}
+
+\input{preamble}
+
+\begin{document}
+
+% Front matter
+\input{Chapters/front_matter}
+% \renewcommand*\contentsname{Table of contents}
+% \tableofcontents % temporary instead of front matter
+% \pagestyle{headings} % this is also temporary, because ultimately it goes at the end of the frontmatter
+
+% Cosmology
+% \subfile{Chapters/cosmo}
+\input{Chapters/cosmo}
+% \input{Chapters/cosmo_v1}
+
+% Cosmological estimators and likelihoods
+\input{Chapters/est_like}
+
+% Exact likelihood of pseudo-Cl estimates from Gaussian fields
+\input{Chapters/exact_like}
+
+% Sufficiency of a Gaussian likelihood for weak lensing power spectra
+\input{Chapters/gauss_like}
+
+% % Covariance of weak lensing pseudo-Cl estimates
+\input{Chapters/cov}
+
+% Binning dependence
+\input{Chapters/binning}
+
+% Weak lensing estimation with convolutional neural networks
+\input{Chapters/cnn}
+
+% Conclusions
+\input{Chapters/conclusions}
+
+% Appendices
+\appendix
+% \addtocontents{toc}{\protect\vskip2em}
+\input{Chapters/exact_like_app}
+
+% Bibliography
+\pagestyle{plain} % no running header
+% \addtocontents{toc}{\protect\vskip2em}
+\emergencystretch=2em % to avoid overfull hboxes
+\printbibliography[heading=bibintoc]
+
+\end{document}

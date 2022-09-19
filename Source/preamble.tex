@@ -1,0 +1,273 @@
+% Koma script document options
+\KOMAoption{paper}{a4}
+\KOMAoption{fontsize}{11pt}
+\KOMAoption{parskip}{half-} % paragraph spacing
+% \KOMAoption{numbers}{enddot} % dot after section number
+\KOMAoption{cleardoublepage}{plain} % include page numbers on blank pages
+\KOMAoption{chapterprefix}{true} % 'Chapter' before number
+
+% Packages
+\usepackage{amsmath} % Gives \text command inside maths blocks
+\usepackage{amssymb} % Various maths symbols
+\usepackage{array} % Table formatting
+\usepackage{bm} % Bold maths including Greek
+\usepackage[format=plain]{caption} % Font sizing and alignment in captions
+\usepackage{enumitem} % Allows numbering like 1.1 in ordered lists
+% \usepackage{float} % Allows H placement of floats
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref} % Hyperlinks without looking like it
+% \usepackage{longtable} % Multi-page tables
+% \usepackage{multicol} % For columns in text (not tables)
+\usepackage{multirow} % For tables
+\usepackage{neuralnetwork} % Neural net diagram
+\usepackage{pdflscape} % Gives landscape environment
+% \usepackage{scrlayer-scrpage} % To move page numbers
+\usepackage{tabularx}
+\usepackage{textcomp} % Added to fix \textasciiacute error on laptop
+% \usepackage{tikz} % Diagrams (used for neural network example)
+% \usepackage[pagenumberwidth=3em]{tocbasic}
+% \usepackage{tocstyle} % ToC styling
+\usepackage{upgreek} % Non-italic greek letters
+\usepackage{xpatch} % Biblatex customisation
+
+\usepackage[a4paper, inner=40mm, outer=15mm, top=30mm, bottom=30mm,footskip=15mm, headsep=15mm]{geometry}
+% \usepackage[a4paper, inner=40mm, outer=30mm, top=50mm, bottom=50mm,footskip=20mm, headsep=20mm]{geometry} % footskip is space between footer (i.e. page number) and bottom of text
+% min allowed is inner 40 mm, others 15 mm
+
+\pagestyle{plain} % no header for front matter, overridden at end of front matter
+
+% Caption setup
+% \tablecaptionabove
+\captionsetup[table]{labelsep=space}
+% \captionsetup[table]{labelsep=space, skip=50pt, position=top}
+\captionsetup[figure]{labelsep=space} % labelsep prevents dot followed by colon in captions
+
+% Line spacing
+\usepackage{setspace}
+% \setstretch{1.4} % strangely this is > \onehalfspacing but < \doublespacing
+\onehalfspacing
+% \doublespacing
+
+\raggedbottom % prevent huge spaces between paragraphs
+
+% % % % % % % % % % % % % % % % % % % % % % % % %
+% Font setup
+% \usepackage{mathpazo} % Covers maths mode too
+\usepackage[sc]{mathpazo} % Covers maths mode too, sc enables small caps
+% \usepackage{palatino}
+\usepackage[T1]{fontenc} % 8-bit font encoding
+\addtokomafont{disposition}{\rmfamily} % Use serif throughout
+% % % % % % % % % % % % % % % % % % % % % % % % %
+
+% % % % % % % % % % % % % % % % % % % % % % % % %
+% Section formatting setup
+% \RedeclareSectionCommand[beforeskip=0pt]{chapter}
+\RedeclareSectionCommand[beforeskip=0pt, innerskip=0pt]{chapter}
+\RedeclareSectionCommand[beforeskip=10pt]{subsubsection}
+\RedeclareSectionCommand[afterskip=1pt]{subsubsection}
+% \setcounter{secnumdepth}{\subsubsectionnumdepth} % number up to subsubsections
+
+% No dot after chapter number (https://tex.stackexchange.com/a/484727)
+\renewcommand*{\chapterformat}{%
+  \mbox{\chapappifchapterprefix{\nobreakspace}\thechapter
+  \IfUsePrefixLine{}{\enskip}}%
+}
+
+% In the running header, separate chapter number and name with em dash
+\renewcommand*{\chaptermarkformat}{%
+\chapapp~\thechapter~---~}
+
+% Create subsubsubsection below subsubsection but above paragraph, following https://tex.stackexchange.com/a/356574
+
+\DeclareNewSectionCommand[
+  style=section,
+  counterwithin=subsubsection,
+  afterskip=1pt,
+  beforeskip=10pt,
+  % afterskip=1.5ex plus .2ex,
+  % beforeskip=3.25ex plus 1ex minus .2ex,
+  % afterindent=false,
+  level=\paragraphnumdepth,
+  tocindent=10em,
+  tocnumwidth=5em
+]{subsubsubsection}
+\setcounter{secnumdepth}{\subsubsubsectionnumdepth}
+% \setcounter{tocdepth}{\subparagraphtocdepth}
+\setcounter{tocdepth}{\subsubsubsectionnumdepth}
+
+\RedeclareSectionCommands[
+  level=\numexpr\subsubsubsectionnumdepth+1\relax,
+  toclevel=\numexpr\subsubsubsectiontocdepth+1\relax,
+  increaselevel,
+]{paragraph,subparagraph}
+\RedeclareSectionCommand[
+  counterwithin=subsubsubsection,
+  tocindent=12em,
+  tocnumwidth=6em,
+  beforeskip=10pt,
+  afterskip=1pt, % line break after paragraph title
+]{paragraph}
+\RedeclareSectionCommand[
+  tocindent=14em,
+  tocnumwidth=7em,
+  beforeskip=0pt
+]{subparagraph}
+% % % % % % % % % % % % % % % % % % % % % % % % %
+
+% Autoref capitalisation
+\def\chapterautorefname{Chapter}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Section}
+\def\subsubsectionautorefname{Section}
+
+% % % % % % % % % % % % % % % % % % % % % % % % %
+% Bibliography setup
+\usepackage[backend=biber,
+    % style=authoryear,
+    style=authoryear-comp, % Don't repeat same author(s) in multiple citations
+    giveninits=true,
+    useprefix=true, % 'van der' etc.
+    url=false,
+    doi=false,
+    isbn=false,
+    eprint=false,
+    uniquename=false, % Don't add initials in citation to disambiguate between authors with the same surname
+    uniquelist=false, % Don't disambiguate in citation between different 'et al.' teams
+    maxbibnames=10,
+    minbibnames=10,
+    maxcitenames=3,%  # 2,
+    natbib, % Gives citep and citet commands
+    labelalpha=true, % Use an 'alpha' label for each bib entry
+    maxalphanames=1, % Use first author as the alpha label
+    sorting=anyvt, % Sort by alpha (first author) then year
+    block=par, % New line between 'blocks' of the bib entry
+    dashed=false, % Reprint author list for each publication in bibliography
+    sortcites=false % Show citations in the order supplied
+]{biblatex}
+
+% Citation/reference parameters
+\renewcommand*{\nameyeardelim}{\addspace} % Space between author and year rather than comma
+\renewcommand*{\finalnamedelim}{\addspace\&\addspace} % Ampersand rather than 'and'
+\xpatchbibmacro{name:andothers}{{\finalandcomma}}{\addspace}{}{} % Space before 'et al.' rather than comma
+
+% Citation-specific parameters
+\DeclareCiteCommand{\blindcite}{\unspace}{}{}{\mancite} % Easy manual citations
+
+% Reference-specific parameters
+\AtEveryBibitem{\clearfield{title}} % Suppress title
+\AtEveryBibitem{\clearfield{month}} % Suppress month
+\DeclareNameAlias{author}{family-given} % Surname first for not just the first author
+\DeclareNameAlias{editor}{family-given} % Same for editors
+\renewbibmacro{in:}{} % Remove 'In:'
+\DeclareFieldFormat{journaltitle}{#1} % Journal title in normal font rather than italics
+\renewbibmacro*{volume+number+eid}{\printfield{volume}\printfield{number}\setunit{\addcomma\space}\printfield{eid}} % No dot after issue
+\DeclareFieldFormat[article]{number}{\mkbibparens{#1}} % Volume in brackets
+\DefineBibliographyStrings{english}{page = {}, pages = {}} % Suppress 'p.'/'pp.'
+\renewbibmacro*{date+extradate}{\printtext{\printfield{year}\addcomma}} % Year not in brackets
+\DeclareFieldFormat{pages}{\mkfirstpage[{\mkpageprefix[bookpagination]}]{#1}} % Only give starting page
+\DeclareFieldFormat{url}{\url{#1}} % No 'URL' before URLs
+% \renewcommand{\finentrypunct}{} % Remove final full stop
+\renewcommand*{\newunitpunct}{\addcomma\space} % Commas between elements of bibitems
+
+\DeclareBibliographyDriver{book}{%
+  \printnames{author}%
+  \space
+  \printfield{year}%
+  \newunit\newblock
+  \printfield{booktitle}%
+  \newunit
+  , \printlist{publisher}%
+\finentry}
+
+\DeclareBibliographyDriver{inproceedings}{%
+  \printnames{author}%
+  \space
+  \printfield{year}%
+  \newunit\newblock
+  \printfield{booktitle}%
+  \newunit
+  \printfield{volume}%
+  \newunit
+  \printfield{pages}%
+\finentry}
+
+\DeclareBibliographyDriver{incollection}{%
+  \printnames{author}%
+  \space
+  \printfield{year}%
+  \newunit\newblock
+  \printfield{booktitle}%
+  \newunit
+  , ed. \printnames{editor},%
+  \newunit\newblock
+  \printlist{publisher}%
+\finentry}
+
+\DeclareBibliographyDriver{misc}{%
+  \printnames{author}%
+  \space
+  \printfield{year}%
+  \newunit\newblock
+  \printfield{title}%
+  \newunit
+  \printfield{url}%
+\finentry}
+
+\addbibresource{refs.bib}
+% % % % % % % % % % % % % % % % % % % % % % % % %
+
+% Footnote spacing
+% \deffootnote[1em]{1.5em}{1em}{\textsuperscript{\thefootnotemark~}}
+\deffootnote[1em]{1em}{1em}{\textsuperscript{\thefootnotemark~}}
+
+% Testing setting all penalties to zero
+\binoppenalty=0
+\brokenpenalty=0
+\clubpenalty=0
+\displaywidowpenalty=0
+\exhyphenpenalty=0
+\floatingpenalty=0
+\hyphenpenalty=0
+\interlinepenalty=0
+% \linepenalty=0 % allowing this to be zero splits titles in a strange way
+\postdisplaypenalty=0
+\predisplaypenalty=0
+\relpenalty=0
+\widowpenalty=0
+
+% Shorthands (non-Maths)
+\newcommand{\lcdm}{$\Lambda$CDM}
+\newcommand{\wcdm}{$w$CDM}
+\newcommand{\Euclid}{\textit{Euclid}}
+\newcommand{\Planck}{\textit{Planck}}
+\newcommand{\Pcl}{Pseudo-$C_\ell$}
+\newcommand{\pcl}{pseudo-$C_\ell$}
+\newcommand{\ttp}{3$\times$2\,pt}
+
+% Maths shorthands
+\newcommand{\alm}{a_{\ell m}}
+\newcommand{\Cl}{C_\ell}
+\newcommand{\fsky}{f_\text{sky}}
+\newcommand{\lmax}{\ell_\text{max}}
+\newcommand{\lmin}{\ell_\text{min}}
+\newcommand{\leff}{\ell_\text{eff}}
+\newcommand{\tmin}{\theta_\text{min}}
+\newcommand{\mathbfit}[1]{\bm{\mathit{#1}}}
+\newcommand{\mathbfss}[1]{\bm{\mathsf{#1}}} % to match MNRAS \mathbfss
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+
+% ΛCDM parameters (maths mode)
+\newcommand{\wo}{w_0}
+\newcommand{\wa}{w_a}
+\newcommand{\omm}{\Omega_\text{m}}
+\newcommand{\omb}{\Omega_\text{b}}
+\newcommand{\omc}{\Omega_\text{c}}
+\newcommand{\sie}{\sigma_8}
+
+% % Editing only
+% \usepackage{xcolor}
+% \newcommand{\todo}[1]{\textbf{{\color{red}{#1}}}}
+
+
+% \usepackage{subfiles} % Best to do this last apparently

@@ -1,0 +1,284 @@
+% % Uncomment to build this alone without subfiles:
+% % (also stuff at bottom)
+% \documentclass{scrbook}
+% \input{../preamble}
+% \begin{document}
+
+
+\begin{titlepage}
+
+\centering
+
+
+\vspace*{8em} % * because otherwise discarded at start of page
+
+\begingroup
+\fontsize{16pt}{20pt}\selectfont
+% \uppercase{A made up thesis title of approximately the right length}
+\uppercase{Analysis methods for precision cosmology\\[1em]
+with weak gravitational lensing}
+\endgroup
+
+\begingroup
+\fontsize{12pt}{18pt}\selectfont
+
+\vspace{10em}
+
+A thesis submitted to the University of Manchester\\
+for the degree of Doctor of Philosophy\\
+in the Faculty of Science and Engineering
+
+\vspace{3em}
+
+2022
+
+\vspace{3em}
+
+Robin E. Upham
+
+\vspace{3em}
+
+Jodrell Bank Centre for Astrophysics
+
+Department of Physics and Astronomy
+
+School of Natural Sciences
+
+\endgroup
+
+\end{titlepage}
+
+\renewcommand*\contentsname{Table of contents}
+\tableofcontents
+
+~
+
+Word count: 68,510
+
+% \renewcommand*\listtablename{List of tables}
+% \listoftables
+% \addcontentsline{toc}{section}{List of tables}
+
+% \renewcommand*\listfigurename{List of figures}
+% \listoffigures
+% \addcontentsline{toc}{section}{List of figures}
+
+% \chapter*{List of abbreviations}
+% \addcontentsline{toc}{section}{List of abbreviations}
+
+% \todo{I actually think it's only necessary for abbreviations to be included in this table if they're ever used without being defined immediately beforehand, i.e. if the only time the abbrev appears is immediately following the full expression then it's not necessary to include here, and is arguably not necessary to include at all, though sometimes makes sense}
+
+% \begin{table}[h]
+% \bgroup
+% \def\arraystretch{1.3}
+% \begin{tabularx}{\textwidth}{l l}
+% Abbreviation & Description \\
+% \hline
+% 2dFGRS & 2dF Galaxy Redshift Survey \\
+% 6dFGS & 6dF Galaxy Survey \\
+% BAO & Baryon Acoustic Oscillations \\
+% (e)BOSS & (Extended) Baryon Oscillation Spectroscopic Survey \\
+% CF & Characteristic Function \\
+% CFHT & Canada France Hawaii Telescope \\
+% CFHTLenS & CFHT Lensing Survey \\
+% CMB & Cosmic Microwave Background \\
+% DES & Dark Energy Survey \\
+% ESA & European Space Agency \\
+% FLRW & Friedmann--Lema\^itre--Robertson--Walker \\
+% GR & General Relativity \\
+% HSC & Hyper Suprime-Cam \\
+% HSC SSP & HSC Subaru Strategic Program \\
+% HST & Hubble Space Telescope \\
+% KAGRA & Kamioka Gravitational Wave Detector \\
+% KiDS & Kilo-Degree Survey \\
+% \lcdm & The standard model of cosmology: a Universe dominated by a \\ & cosmological constant ($\Lambda$) and cold dark matter (CDM) \\
+% LIGO & Laser Interferometer Gravitational-Wave Observatory \\
+% LISA & Laser Interferometer Space Antenna \\
+% LSST & Vera C. Rubin Observatory Legacy Survey of Space and Time \\
+% MI & Mutual Information \\
+% PDF & Probability Density Function \\
+% PSF & Point Spread Function \\
+% RSD & Redshift-Space Distortions \\
+% SDSS & Sloan Digital Sky Survey
+% \end{tabularx}
+% \egroup
+% \end{table}
+
+\chapter*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+
+\vspace{-.3em} % to fit on one page
+
+There are many open questions in cosmology, chief among which are the nature of the dominant components in the Universe: dark energy and dark matter. One promising probe with which to make progress in answering these questions is the analysis of weak gravitational lensing: subtle distortions in the shapes of distant galaxies due to the gravitational effect of large-scale structure in the Universe. These distortions depend closely on the properties of dark energy and dark matter, which govern the evolution of structure in recent times. Careful statistical analysis of the distortions may therefore place tight constraints on physical theories of these components, along with gravity and other constituents of the Universe such as neutrinos. This promise is set to be realised by the upcoming generation of weak lensing experiments such as the \Euclid{} space mission and the Square Kilometre Array radio observatory, which will observe tens of billions of galaxies, and in doing so will achieve an unprecedented level of statistical precision on cosmological constraints. However, such unprecedented precision requires equally unprecedented understanding and control of all aspects of the analysis process, in order to obtain reliable results and avoid undiagnosed biases and systematic errors.
+
+This thesis makes progress towards a complete and robust understanding of certain aspects of weak lensing analyses. Chapters \ref{chap:exact_like}--\ref{chap:binning} focus on \pcl{} estimators, which are fast estimators of two-point correlation in Fourier space, for use with partial-sky observations. The exact joint likelihood of \pcl{} estimates from an arbitrary number of correlated spin-0 and spin-2 Gaussian fields is derived and validated in \autoref{chap:exact_like}. It is shown in \autoref{chap:gauss_like} that to obtain accurate constraints on dark energy parameters with \pcl{} estimates from \Euclid{}, a Gaussian likelihood is sufficiently accurate, and that this accuracy is robust to the details of the analysis setup. A Gaussian likelihood requires a covariance matrix, and in \autoref{chap:cov} a method is presented with which to calculate a complete covariance matrix of \pcl{} estimates for \Euclid{}, including non-Gaussian mode coupling arising from non-linear structure growth as well as Gaussian mode coupling arising from the convolution of the signal with the mask describing the details of the sky coverage. The resulting covariance matrix is compared to one estimated from weak lensing simulations, with good agreement. \autoref{chap:binning} turns to the question of how to select an angular binning strategy to strike an optimal balance between statistical constraining power and data compression. Finally, \autoref{chap:cnn} considers a different question, of whether convolutional neural networks may be used to estimate weak lensing shear directly from radio visibilities from the Square Kilometre Array. Working towards this aim from a simplified case of lensing of the cosmic microwave background, it shows that this method is promising but also entails many challenges. The work presented in this thesis helps to make significant progress towards an ultimate goal of reliable cosmological inference from future weak lensing data, but many challenges and open questions remain, which are discussed in \autoref{chap:conclusions}.
+
+% Declaration
+\cleardoublepage
+\vspace*{\fill}
+\vspace{-10em}
+\section*{Declaration}
+\addcontentsline{toc}{section}{Declaration}
+No portion of the work referred to in this thesis has been submitted in support of an application for another degree or qualification of this or any other university or other institute of learning.
+\vspace*{\fill}
+
+% Copyright page
+\cleardoublepage
+\vspace*{\fill}
+\vspace{-10em}
+
+\section*{Copyright statement}
+\addcontentsline{toc}{section}{Copyright statement}
+
+\begin{enumerate}[label=\roman*.]
+
+\item The author of this thesis (including any appendices and/or schedules to this thesis) owns certain copyright or related rights in it (the ``Copyright'') and has given the University of Manchester certain rights to use such Copyright, including for administrative purposes.
+
+\item Copies of this thesis, either in full or in extracts and whether in hard or electronic copy, may be made only in accordance with the Copyright, Designs and Patents Act 1988 (as amended) and regulations issued under it or, where appropriate, in accordance with licensing agreements which the University has from time to time. This page must form part of any such copies made.
+
+\item The ownership of certain Copyright, patents, designs, trademarks and other intellectual property (the ``Intellectual Property'') and any reproductions of copyright works in the thesis, for example graphs and tables (``Reproductions''), which may be described in this thesis, may not be owned by the author and may be owned by third parties. Such Intellectual Property and Reproductions cannot and must not be made available for use without the prior written permission of the owner(s) of the relevant Intellectual Property and/or Reproductions.
+
+\item Further information on the conditions under which disclosure, publication and commercialisation of this thesis, the Copyright and any Intellectual Property and/or Reproductions described in it may take place is available in the University IP Policy\footnote{\url{http://documents.manchester.ac.uk/DocuInfo.aspx?DocID=24420}}, in any relevant Thesis restriction declarations deposited in the University Library, the University Library’s regulations\footnote{\url{http://www.library.manchester.ac.uk/about/regulations}} and in the University’s policy on Presentation of Theses.
+
+\end{enumerate}
+
+\vspace*{\fill}
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+
+My thanks, above all, go to Michael and Lee for your supervision and guidance, and to my partner Michaela for your unwavering support. I additionally wish to thank everyone who I had the pleasure of working with within Jodrell Bank Centre for Astrophysics and the Euclid Consortium.
+
+Discussions with many other researchers contributed significantly to the work presented in this thesis. In particular, thanks to Andrew Jaffe, Benjamin Joachimi and Andy Taylor for \autoref{chap:exact_like}, and to Alex Hall and Peter Taylor for \autoref{chap:gauss_like}. \autoref{chap:cov} is adapted from a \Euclid{} collaboration paper with too many co-authors to personally thank, many of whom contributed valuable feedback to the draft. I am especially grateful to Alan Heavens and Keith Grainge for examining the thesis as a whole and providing much valuable feedback. Chapters \ref{chap:exact_like}--\ref{chap:cov} also benefited from anonymous peer reviews.
+
+The work in Chapters \ref{chap:gauss_like} and \ref{chap:cov} would not have been possible without the public simulation suites of the SLICS \citep{Harnois-Deraps2015, Harnois-Deraps2018} and \citet{Takahashi2017}. A host of open-source code published by members of the astronomy and cosmology community was invaluable throughout this work:
+%
+%
+% No texttt:
+%
+% Astropy \citep{TheAstropyCollaboration2013, TheAstropyCollaboration2018},
+% CAMB \citep{Lewis2000, Howlett2012},
+% the Core Cosmology Library \citep{Chisari2019},
+% CosmoLike \citep{Krause2017CosmoLike},
+% FITSIO \citep{Pence1999},
+% HEALPix/healpy \citep{Gorski2005, Zonca2019},
+% LensTools \citep{Petri2016},
+% NaMaster \citep{Alonso2019},
+% TreeCorr \citep{Jarvis2004, Jarvis2015},
+% and Wigner \citep{Tessore2019}.
+% The work in this thesis has also made heavy use of a multitude of open-source Python packages:
+% most importantly
+% NumPy \citep{Harris2020},
+% SciPy \citep{Virtanen2020},
+% and Matplotlib \citep{Hunter2007},
+% supplemented by
+% the Non-Parametric Entropy Estimation Toolbox \citep{VerSteeg2014},
+% pandas \citep{McKinney2010, Pandas2020},
+% parse \citep{Jones2021},
+% py3nj \citep{Fuji2021},
+% quaternion \citep{Boyle2022},
+% Scikit-learn \citep{Pedregosa2011},
+% seaborn \citep{Waskom2021},
+% SHTools \citep{Wieczorek2018},
+% Spherical Functions \citep{Boyle2021},
+% SymPy \citep{Meurer2017},
+% and TensorFlow/Keras \citep{Abadi2016, Chollet2015}.
+%
+%
+% Again with texttt:
+\texttt{Astropy} \citep{TheAstropyCollaboration2013, TheAstropyCollaboration2018},
+\texttt{CAMB} \citep{Lewis2000, Howlett2012},
+the \texttt{Core Cosmology Library} \citep{Chisari2019},
+\texttt{CosmoLike}/\texttt{CosmoCov} \citep{Krause2017CosmoLike, Fang2020CosmoCov},
+\texttt{CosmoSIS} \citep{Zuntz2015},
+\texttt{FITSIO} \citep{Pence1999},
+\texttt{HEALPix}/\texttt{healpy} \citep{Gorski2005, Zonca2019},
+\texttt{LensTools} \citep{Petri2016},
+\texttt{NaMaster} \citep{Alonso2019},
+\texttt{TreeCorr} \citep{Jarvis2004TreeCorr},
+and \texttt{Wigner} \citep{Tessore2019}.
+The work in this thesis has also made heavy use of a multitude of open-source Python packages:
+most importantly
+\texttt{NumPy} \citep{Harris2020},
+\texttt{SciPy} \citep{Virtanen2020},
+and \texttt{Matplotlib} \citep{Hunter2007},
+supplemented by
+the \texttt{Non-Parametric Entropy Estimation Toolbox} \citep{VerSteeg2014},
+\texttt{pandas} \citep{McKinney2010, Pandas2020},
+\texttt{parse} \citep{Jones2021},
+\texttt{py3nj} \citep{Fuji2021},
+\texttt{quaternion} \citep{Boyle2022},
+\texttt{Scikit-learn} \citep{Pedregosa2011},
+\texttt{seaborn} \citep{Waskom2021},
+\texttt{SHTools} \citep{Wieczorek2018},
+\texttt{Spherical Functions} \citep{Boyle2021},
+\texttt{SymPy} \citep{Meurer2017},
+and \texttt{TensorFlow}/\texttt{Keras} \citep{Abadi2016, Chollet2015}.
+
+Finally, none of the work in this thesis would have been possible without the financial support of a studentship from the UK Science \& Technology Facilities Council.
+
+
+\chapter*{Supporting publications}
+\addcontentsline{toc}{section}{Supporting publications}
+
+\textit{Exact joint likelihood of pseudo-$C_\ell$ estimates from correlated Gaussian cosmological fields} \\
+Upham, R. E., Whittaker, L. \& Brown, M. L. 2020 \\
+Monthly Notices of the Royal Astronomical Society 491, 3165
+
+\begin{itemize}
+  \item \autoref{chap:exact_like}
+is adapted from this publication.
+\end{itemize}
+
+\textit{Sufficiency of a Gaussian power spectrum likelihood for accurate cosmology from upcoming weak lensing surveys} \\
+Upham, R. E., Brown, M. L. \& Whittaker, L. 2021 \\
+Monthly Notices of the Royal Astronomical Society 503, 1999
+
+\begin{itemize}
+  \item \autoref{chap:gauss_like}
+is adapted from this publication.
+\end{itemize}
+
+\textit{Euclid: Covariance of weak lensing pseudo-$C_\ell$ estimates. Calculation, comparison to simulations, and dependence on survey geometry} \\
+Upham, R. E., Brown, M. L., Whittaker, L., et al. 2022 \\
+Astronomy \& Astrophysics 660, A114
+
+\begin{itemize}
+  \item \autoref{chap:cov}
+is adapted from this publication.
+\end{itemize}
+
+
+\chapter*{Supporting code and data}
+\addcontentsline{toc}{section}{Supporting code and data}
+
+Code is made available at \url{https://github.com/robinupham}. The repository corresponding to each chapter is listed below.
+
+\begin{itemize}
+\item \autoref{chap:exact_like}: \url{https://github.com/robinupham/pseudo_cl_likelihood};
+\item \autoref{chap:gauss_like}: \url{https://github.com/robinupham/gaussian_cl_likelihood};
+\item \autoref{chap:cov}:
+\begin{itemize}
+\item \url{https://github.com/robinupham/CosmoCov_ClCov} \\ for non-Gaussian covariance;
+\item \url{https://github.com/robinupham/shear_pcl_cov} \\ for Gaussian covariance, plotting, and other utilities;
+\end{itemize}
+\item \autoref{chap:binning}: \url{https://github.com/robinupham/angular_binning};
+\item \autoref{chap:cnn}: \url{https://github.com/robinupham/cnn_lensing}.
+\end{itemize}
+
+In addition, the following data repositories are available at Zenodo.
+
+\begin{itemize}
+\item Power spectra estimated from Gaussian field simulations used in \autoref{chap:gauss_like}: \\ \url{https://doi.org/10.5281/zenodo.4316732};
+\item Power spectra estimated from \citet{Takahashi2017} weak lensing simulations, and connected non-Gaussian covariance matrix, used in \autoref{chap:cov}: \\ \url{https://doi.org/10.5281/zenodo.5163132}.
+\end{itemize}
+
+
+% \addtocontents{toc}{\protect\vskip2em} % space in contents between front matter and main matter
+
+\pagestyle{headings} % for main matter
+
+
+% % Uncomment to build alone without subfiles:
+% \printbibliography[heading=bibintoc]
+% \end{document}

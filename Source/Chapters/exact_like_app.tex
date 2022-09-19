@@ -1,0 +1,472 @@
+
+\chapter{Proofs supplementing exact pseudo-\texorpdfstring{$C_\ell$}{Cl} likelihood}
+
+This appendix contains proofs accompanying the exact joint pseudo-$C_\ell$ likelihood for correlated Gaussian fields presented in \autoref{chap:exact_like}. \autoref{el_App:cov_derivation} contains the derivation of the general pseudo-$\alm$ covariance, and \autoref{el_App:cf_equivalance} contains a proof that the joint characteristic function used in the implementation of the likelihood in \autoref{chap:exact_like} is identical to that presented in \citet{Good1963}.
+
+% \section[General pseudo-alm covariance derivation]{General pseudo-$\lowercase{a}_{\ell \lowercase{m}}$ covariance derivation}
+\section{General pseudo-\texorpdfstring{$a_{\ell m}$}{alm} covariance derivation}
+\label{el_App:cov_derivation}
+
+This section contains the derivation of
+% In this appendix we derive
+the general covariance matrix elements of the\linebreak pseudo-$a_{\ell m}$s.
+
+First,
+% we present
+the derivation of the real and imaginary parts of the general pseudo-$a_{\ell m}$s given in Equations \eqref{el_Eqn:Re_alm_general} and \eqref{el_Eqn:Im_alm_general}. We begin with the general form of a pseudo-$a_{\ell m}$ as a weighted sum of full-sky $a_{\ell m}s$ as given in Equation
+\eqref{el_Eqn:pseudo_alm_as_sum}. We expand the sum over $m'$ into separate sums for $m' < 0$ and $m' > 0$, and a term for $m' = 0$:
+\begin{equation}
+\widetilde{a}_{\ell m}^{ \left( \alpha \right) } =
+\sum_{\beta, \ell'} \left[
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' 0}^{ \left( \beta \right) }}
+a_{\ell' 0}^{ \left( \beta \right) }
++ \sum_{m' < 0}
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' m'}^{ \left( \beta \right) }}
+a_{\ell' m'}^{ \left( \beta \right) }
++ \sum_{m' > 0}
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' m'}^{ \left( \beta \right) }}
+a_{\ell' m'}^{ \left( \beta \right) }
+\right].
+\end{equation}
+Writing the $m' < 0$ contributions in terms of their $m' > 0$ counterparts using Equation
+\eqref{el_Eqn:alm_symmetry}
+gives
+\begin{equation}
+\begin{split}
+\widetilde{a}_{\ell m}^{ \left( \alpha \right) } &=
+\sum_{\beta, \ell'} \left[
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' 0}^{ \left( \beta \right) }}
+a_{\ell' 0}^{ \left( \beta \right) }
++ \sum_{m' < 0}
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' m'}^{ \left( \beta \right) }}
+\left( -1 \right)^{m'}
+\left( a_{\ell' \lvert m' \rvert}^{\left( \beta \right)} \right)^*
++ \sum_{m' > 0}
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' m'}^{ \left( \beta \right) }}
+a_{\ell' m'}^{ \left( \beta \right) }
+\right] \\
+&= \sum_{\beta, \ell'} \left[
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' 0}^{ \left( \beta \right) }}
+a_{\ell' 0}^{ \left( \beta \right) }
++ \sum_{m' > 0} \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' m'}^{ \left( \beta \right) }}
+a_{\ell' m'}^{ \left( \beta \right) }
++ \left( -1 \right)^{m'}
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' -m'}^{ \left( \beta \right) }}
+\left( a_{\ell' m'}^{ \left( \beta \right) } \right)^*
+\right)
+\right].
+\end{split}
+\end{equation}
+
+We now expand this into real and imaginary parts as
+\begin{equation}
+\begin{split}
+\widetilde{a}_{\ell m}^{ \left( \alpha \right) } =
+\sum_{\beta, \ell'} \Bigg[
+\left[ \Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' 0}^{ \left( \beta \right) }}
+\right) + i \Im \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' 0}^{ \left( \beta \right) }}
+\right) \right]
+\Re \left( a_{\ell' 0}^{ \left( \beta \right) } \right)
+\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad & \\
++
+\sum_{m' > 0} \Bigg(
+\left[ \Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' m'}^{ \left( \beta \right) }}
+\right) + i \Im \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' m'}^{ \left( \beta \right) }}
+\right) \right]
+\left[ \Re \left(
+a_{\ell' m'}^{ \left( \beta \right) }
+\right) + i \Im \left(
+a_{\ell' m'}^{ \left( \beta \right) }
+\right) \right] & \\
++
+\left( -1 \right)^{m'}
+\left[ \Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' -m'}^{ \left( \beta \right) }}
+\right) + i \Im \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell' -m'}^{ \left( \beta \right) }}
+\right) \right]
+\left[ \Re \left(
+a_{\ell' m'}^{ \left( \beta \right) }
+\right) - i \Im \left(
+a_{\ell' m'}^{ \left( \beta \right) }
+\right) \right] &
+\Bigg) \Bigg],
+\end{split}
+\end{equation}
+which, after some algebra, gives the real and imaginary parts in Equations
+\eqref{el_Eqn:Re_alm_general}
+and
+\eqref{el_Eqn:Im_alm_general}.
+
+We now proceed to the derivation of the covariance between two of the real parts, as given in Equation
+\eqref{el_Eqn:cov_re_re_general}. The derivations of the imaginary--imaginary and real--imaginary covariance given in Equations \eqref{el_Eqn:cov_im_im_general}
+and \eqref{el_Eqn:cov_re_im_general} follow analogously. We begin by inserting the expression for the real part of a pseudo-$a_{\ell m}$ from Equation \eqref{el_Eqn:Re_alm_general}:
+\begin{equation}
+\begin{split}
+& \mathrm{Cov} \left(
+\Re \left( \widetilde{a}_{\ell m}^{ \left( \alpha \right) } \right),
+\Re \left( \widetilde{a}_{\ell' m'}^{ \left( \beta \right) } \right)
+\right) \\
+&=
+\mathrm{Cov} \Bigg(
+\sum_{\gamma, \ell''} \Bigg[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' 0}^{ \left( \gamma \right) }}
+\right)
+\Re \left( a_{\ell'' 0}^{ \left( \gamma \right) } \right) \\
+&~~~~~~~~~~~~~~~~~~~~~~~~ +
+\sum_{m'' > 0} \Bigg( \left[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' m''}^{ \left( \gamma \right) }}
+\right)
++ \left( -1 \right)^{m''}
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' -m''}^{ \left( \gamma \right) }}
+\right) \right]
+\Re \left(
+a_{\ell'' m''}^{ \left( \gamma \right) }
+\right) \\
+&~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -
+\left[ \Im \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' m''}^{ \left( \gamma \right) }}
+\right)
+- \left( -1 \right)^{m''}
+\Im \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' -m''}^{ \left( \gamma \right) }}
+\right) \right]
+\Im \left(
+a_{\ell'' m''}^{ \left( \gamma \right) }
+\right) \Bigg) \Bigg], \\
+&~~~~~~~~~~~~~~
+\sum_{\varepsilon, \ell'''} \Bigg[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' 0}^{ \left( \varepsilon \right) }}
+\right)
+\Re \left( a_{\ell''' 0}^{ \left( \varepsilon \right) } \right) \\
+&~~~~~~~~~~~~~~~~~~~~~~~~ +
+\sum_{m''' > 0} \Bigg( \left[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' m'''}^{ \left( \varepsilon \right) }}
+\right)
++ \left( -1 \right)^{m'''}
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' -m'''}^{ \left( \varepsilon \right) }}
+\right) \right]
+\Re \left(
+a_{\ell''' m'''}^{ \left( \varepsilon \right) }
+\right) \\
+&~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\, -
+\left[ \Im \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' m'''}^{ \left( \varepsilon \right) }}
+\right)
+- \left( -1 \right)^{m'''}
+\Im \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' -m'''}^{ \left( \varepsilon \right) }}
+\right) \right]
+\Im \left(
+a_{\ell''' m'''}^{ \left( \varepsilon \right) }
+\right) \Bigg) \Bigg] \Bigg).
+\end{split}
+\end{equation}
+We expand this into a linear sum of full-sky $a_{\ell m}$ covariances, noting that the terms involving covariance between real and imaginary full-sky $a_{\ell m}$s immediately vanish, as do terms involving covariance between $m = 0$ and $m > 0$ $a_{\ell m}$s:
+\begin{equation}
+\begin{split}
+&
+\mathrm{Cov} \left(
+\Re \left( \widetilde{a}_{\ell m}^{ \left( \alpha \right) } \right),
+\Re \left( \widetilde{a}_{\ell' m'}^{ \left( \beta \right) } \right)
+\right) \\
+&= \sum_{\gamma, \varepsilon}
+\sum_{\ell'' \ell'''}
+\Bigg[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' 0}^{ \left( \gamma \right) }}
+\right)
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' 0}^{ \left( \varepsilon \right) }}
+\right)
+\mathrm{Cov} \left(
+\Re \left( a_{\ell'' 0}^{ \left( \gamma \right) } \right),
+\Re \left( a_{\ell''' 0}^{ \left( \varepsilon \right) } \right)
+\right) \\
+&~~~~~~~~~~~~~~~~~~~~ +
+\sum_{\substack{m'' > 0 \\ m''' > 0}} \Bigg(
+\left[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' m''}^{ \left( \gamma \right) }}
+\right)
++ \left( -1 \right)^{m''}
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' -m''}^{ \left( \gamma \right) }}
+\right) \right] \\
+&~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \qquad\qquad\qquad\qquad\quad \times
+\left[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' m'''}^{ \left( \varepsilon \right) }}
+\right)
++ \left( -1 \right)^{m'''}
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' -m'''}^{ \left( \varepsilon \right) }}
+\right) \right]
+\\
+&~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \qquad\qquad\qquad\qquad\quad \times
+\mathrm{Cov} \left(
+\Re \left(
+a_{\ell'' m''}^{ \left( \gamma \right) }
+\right),
+\Re \left(
+a_{\ell''' m'''}^{ \left( \varepsilon \right) }
+\right) \right) \\
+&~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ +
+\left[ \Im \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' m''}^{ \left( \gamma \right) }}
+\right)
+- \left( -1 \right)^{m''}
+\Im \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' -m''}^{ \left( \gamma \right) }}
+\right) \right] \\
+&~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \qquad\qquad\qquad\qquad\quad \times
+\left[ \Im \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' m'''}^{ \left( \varepsilon \right) }}
+\right)
+- \left( -1 \right)^{m'''}
+\Im \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell''' -m'''}^{ \left( \varepsilon \right) }}
+\right) \right] \\
+&~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \qquad\qquad\qquad\qquad\quad \times
+\mathrm{Cov} \left(
+\Im \left(
+a_{\ell'' m''}^{ \left( \gamma \right) }
+\right),
+\Im \left(
+a_{\ell''' m'''}^{ \left( \varepsilon \right) }
+\right) \right) \Bigg) \Bigg].
+\label{el_Eqn:cov_re_re_wfullsky}
+\end{split}
+\end{equation}
+The full-sky covariances are given by
+\begin{equation}
+\mathrm{Cov} \left(
+\Re \left( a_{\ell m}^{ \left( \alpha \right) } \right),
+\Re \left( a_{\ell' m'}^{ \left( \beta \right) } \right)
+\right)
+=
+\begin{cases}
+C_{\ell}^{\alpha \beta} \delta_{\ell \ell'} \delta_{m m'}
+& m = 0; \\
+C_{\ell}^{\alpha \beta} \delta_{\ell \ell'} \delta_{m m'} / 2
+& m > 0,
+\label{el_Eqn:full_sky_cov_rere}
+\end{cases}
+\end{equation}
+and for $m > 0$,
+\begin{equation}
+\mathrm{Cov} \left(
+\Im \left( a_{\ell m}^{ \left( \alpha \right) } \right),
+\Im \left( a_{\ell' m'}^{ \left( \beta \right) } \right)
+\right)
+= C_{\ell}^{\alpha \beta} \delta_{\ell \ell'} \delta_{m m'} / 2.
+\label{el_Eqn:full_sky_cov_imim}
+\end{equation}
+Inserting these into Equation \eqref{el_Eqn:cov_re_re_wfullsky}, evaluating the delta functions and rearranging, we obtain
+\begin{equation}
+\begin{split}
+&
+\mathrm{Cov} \left(
+\Re \left( \widetilde{a}_{\ell m}^{ \left( \alpha \right) } \right),
+\Re \left( \widetilde{a}_{\ell' m'}^{ \left( \beta \right) } \right)
+\right) \\
+&= \sum_{\gamma, \varepsilon}
+\sum_{\ell''}
+C_{\ell''}^{\gamma \varepsilon}
+\Bigg[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' 0}^{ \left( \gamma \right) }}
+\right)
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell'' 0}^{ \left( \varepsilon \right) }}
+\right)
+\\
+&~~~~~~~~~~~~~~~~~~~~~~~~~ +
+\frac{1}{2}
+\sum_{m'' > 0} \Bigg(
+\left[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' m''}^{ \left( \gamma \right) }}
+\right)
++ \left( -1 \right)^{m''}
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' -m''}^{ \left( \gamma \right) }}
+\right) \right] \\
+& \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad \times
+\left[
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell'' m''}^{ \left( \varepsilon \right) }}
+\right)
++ \left( -1 \right)^{m''}
+\Re \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell'' -m''}^{ \left( \varepsilon \right) }}
+\right) \right] \\
+&~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\, +
+\left[ \Im \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' m''}^{ \left( \gamma \right) }}
+\right)
+- \left( -1 \right)^{m''}
+\Im \left(
+\frac{\partial \widetilde{a}_{\ell m}^{ \left( \alpha \right) }}
+{\partial a_{\ell'' -m''}^{ \left( \gamma \right) }}
+\right) \right] \\
+& \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad \times
+\left[ \Im \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell'' m''}^{ \left( \varepsilon \right) }}
+\right)
+- \left( -1 \right)^{m''}
+\Im \left(
+\frac{\partial \widetilde{a}_{\ell' m'}^{ \left( \beta \right) }}
+{\partial a_{\ell'' -m''}^{ \left( \varepsilon \right) }}
+\right) \right]
+\Bigg) \Bigg].
+\end{split}
+\end{equation}
+Finally, we use the identities that for complex $A$ and $B$,
+\begin{align}
+&\Re A \Re B + \Im A \Im B = \Re \left( A^* B \right); \\
+&\Re A \Re B - \Im A \Im B = \Re \left( A B \right)
+\end{align}
+to obtain the final covariance given in Equation \eqref{el_Eqn:cov_re_re_general}. The variance of a single real part is a special case of Equation \eqref{el_Eqn:cov_re_re_general} having $\alpha = \beta$, $\ell = \ell'$ and $m = m'$.
+
+
+\section{Equivalence of the two forms of the joint characteristic function}
+\label{el_App:cf_equivalance}
+
+% Here we demonstrate
+This section contains a proof that the expression for the joint characteristic function used in
+% our implementation of the likelihood,
+the implementation of the likelihood used in \autoref{chap:exact_like},
+given in Equation \eqref{el_Eqn:CF_alt} and denoted here by $\varphi_\mathrm{alt}$, is mathematically equivalent to the known analytic form from \citet{Good1963}, given in Equation \eqref{el_Eqn:joint_cf} and denoted here by $\varphi_\mathrm{Good}$.
+
+The form given in \citet{Good1963} is written in terms of the determinant of the complex square matrix which we will denote by $\mathbfss{X}$:
+\begin{equation}
+\mathbfss{X} =
+\mathbfss{I} - 2i \sum_\ell \sum_{\alpha \beta}
+t_\ell^{\alpha \beta} \mathbfss{M}_\ell^{\alpha \beta} \bm{\Sigma},
+\end{equation}
+where $\mathbfss{I}$ is the identity matrix. The determinant of any matrix is equal to the product of its eigenvalues, so we may write $\varphi_\mathrm{Good}$ as
+\begin{equation}
+\varphi_\mathrm{Good} \left( \mathbfit{t} \right) =
+\prod_j \lambda_j^{-1/2}, \quad \quad
+\lambda_j \in \lambda \left( \mathbfss{X} \right).
+\end{equation}
+The eigenvalues of $\mathbfss{X}$, $\lambda \left( \mathbfss{X} \right)$, are defined by the eigenvalue equation,
+\begin{equation}
+    \lvert \mathbfss{X} - \lambda_j \mathbfss{I} \rvert = 0 \quad
+    \forall ~ \lambda_j \in \lambda \left( \mathbfss{X} \right).
+    \label{el_Eqn:x_evs}
+\end{equation}
+Now let us define another matrix $\mathbfss{Y}$ such that $\mathbfss{X} = \mathbfss{I} - \mathbfss{Y}$. Inserting this into Equation \eqref{el_Eqn:x_evs}, we obtain
+\begin{equation}
+    \Big\lvert
+    - \left[ \mathbfss{Y} - \left( 1 - \lambda_j \right) \mathbfss{I}\right]
+    \Big\rvert = 0 \quad
+    \forall ~ \lambda_j \in \lambda \left( \mathbfss{X} \right).
+    \label{el_Eqn:det_y}
+\end{equation}
+For any matrix $\mathbfss{A}$, the determinant of $- \mathbfss{A}$ is given by
+\begin{equation}
+    \lvert - \mathbfss{A} \rvert = \pm \lvert \mathbfss{A} \rvert,
+\end{equation}
+depending on whether the rank of $\mathbfss{A}$ is even or odd. Using this fact in Equation \eqref{el_Eqn:det_y} implies that
+\begin{equation}
+    \Big\lvert
+    \mathbfss{Y} - \left( 1 - \lambda_j \right) \mathbfss{I}
+    \Big\rvert = 0 \quad
+    \forall ~ \lambda_j \in \lambda \left( \mathbfss{X} \right).
+\end{equation}
+Therefore, the eigenvalues of $\mathbfss{X}$ and $\mathbfss{Y}$ are related as
+\begin{equation}
+\lambda \left( \mathbfss{Y} \right) = 1 - \lambda \left( \mathbfss{X} \right),
+\quad \quad \text{and hence} \quad \quad
+\lambda \left( \mathbfss{X} \right) = 1 - \lambda \left( \mathbfss{Y} \right).
+\end{equation}
+This allows us to write $\varphi_\mathrm{Good}$ in terms of the eigenvalues of $\mathbfss{Y}$,
+\begin{equation}
+\varphi_\mathrm{Good} \left( \mathbfit{t} \right) =
+\prod_j \left( 1 - \lambda_j \right)^{-1/2}, \quad \quad
+\lambda_j \in \lambda \left( \mathbfss{Y} \right).
+\label{el_Eqn:Good_evs_y}
+\end{equation}
+Finally, we use the fact that the eigenvalues of a scalar multiple of a matrix are equal to the scalar multiplied by the original matrix,
+\begin{equation}
+    \lambda \left( \alpha \mathbfss{A} \right) =
+    \alpha \lambda \left( \mathbfss{A} \right),
+\end{equation}
+to extract the multiple of $2i$ from $\mathbfss{Y}$:
+\begin{equation}
+    \lambda \left( \mathbfss{Y} \right) =
+    \lambda \left(
+    2i \sum_\ell \sum_{\alpha \beta}
+    t_\ell^{\alpha \beta} \mathbfss{M}_\ell^{\alpha \beta} \bm{\Sigma}
+    \right)
+    = 2i \times \lambda \left(
+    \sum_\ell \sum_{\alpha \beta}
+    t_\ell^{\alpha \beta} \mathbfss{M}_\ell^{\alpha \beta} \bm{\Sigma}
+    \right),
+\end{equation}
+which we insert into Equation \eqref{el_Eqn:Good_evs_y} to obtain the alternative form,
+\begin{equation}
+\begin{split}
+    \varphi_\mathrm{Good} \left( \mathbfit{t} \right) &=
+    \prod_j \left( 1 - 2i \lambda_j \right)^{-1/2}, \quad \quad
+    \lambda_j \in \lambda \left( \sum_\ell \sum_{\alpha \beta}
+    t_\ell^{\alpha \beta} \mathbfss{M}_\ell^{\alpha \beta} \bm{\Sigma} \right) \\
+    &= \varphi_\mathrm{alt} \left( \mathbfit{t} \right).
+\end{split}
+\end{equation}
